@@ -17,19 +17,17 @@ router.post('/', withAuth, async (req, res) => {
 
 router.delete('/:id', withAuth, async (req, res) => {
   try {
-    const blogpostData = await BlogPost.destroy({
+    const [affectedRows] = BlogPost.destroy({
       where: {
         id: req.params.id,
-        user_id: req.session.user_id,
       },
     });
 
-    if (!blogpostData) {
-      res.status(404).json({ message: 'No project found with this id!' });
-      return;
+    if (affectedRows > 0) {
+      res.status(200).end();
+    } else {
+      res.status(404).end();
     }
-
-    res.status(200).json(blogpostData);
   } catch (err) {
     res.status(500).json(err);
   }
