@@ -33,46 +33,22 @@ router.get('/new', withAuth, (req, res) => {
   });
 });
 
-router.get('/blogpost/:id', async (req, res) => {
+router.get('/edit/:id', withAuth, async (req, res) => {
   try {
-    const blogPostData = await BlogPost.findByPk(req.params.id, {
-      include: [
-        User,
-        {
-          model: Comment,
-          attributes: [User]
-        }
-      ]
-    })
+    const blogPostData = await BlogPost.findByPk(req.params.id);
+   if (blogPostData) {
+      const post = postData.get({ plain: true });
 
-    const blogPost = blogPostData.get({ plain: true })
-
-    res.render('single-blogpost', {
-      ...blogPost
-    })
+      res.render('edit-post', {
+        layout: 'dashboard',
+        post,
+      });
+    } else {
+      res.status(404).end();
+    }
   } catch (err) {
-    res.status(500).json(err)
+    res.redirect('login');
   }
-})
-
-router.get('/login', (req, res) => {
-  // If the user is already logged in, redirect the request to another route
-  if (req.session.logged_in) {
-    res.redirect('/')
-    return
-  }
-
-  res.render('login')
-})
-
-router.get('/signup', (req, res) => {
-  // If the user is already logged in, redirect the request to another route
-  if (req.session.signed_up) {
-    res.redirect('/')
-    return
-  }
-
-  res.render('signup')
-})
+});
 
 module.exports = router
