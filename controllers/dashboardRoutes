@@ -27,6 +27,12 @@ router.get('/', withAuth, async (req, res) => {
   }
 })
 
+router.get('/new', withAuth, (req, res) => {
+  res.render('new-blogpost', {
+    layout: 'dashboard',
+  });
+});
+
 router.get('/blogpost/:id', async (req, res) => {
   try {
     const blogPostData = await BlogPost.findByPk(req.params.id, {
