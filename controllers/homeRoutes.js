@@ -47,9 +47,9 @@ router.get('/blogpost/:id', async (req, res) => {
     res.status(500).json(err)
   }
 })
-
 router.get('/login', (req, res) => {
   // If the user is already logged in, redirect the request to another route
+  console.log('try at  login')
   if (req.session.logged_in) {
     res.redirect('/')
     return
