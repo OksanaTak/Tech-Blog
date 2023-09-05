@@ -4,15 +4,13 @@ const { BlogPost, User, Comment } = require('../models')
 
 router.get('/', async (req, res) => {
   try {
+    console.log('try at  1')
     // Get all projects and JOIN with user data
     const blogPostData = await BlogPost.findAll({
-      include: [
-        {
-          model: User,
-          attributes: ['name']
-        }
-      ]
+      include: [User]
     })
+
+    console.log('try at  2')
 
     // Serialize data so the template can read it
     const blogPosts = blogPostData.map(blogPost =>
