@@ -18,10 +18,7 @@ router.get('/', withAuth, async (req, res) => {
     )
 
     // Pass serialized data and session flag into template
-    res.render('all-blogposts-admin', {
-        layout: 'dashboard',
-      blogPosts
-    })
+    res.render('all-blogposts-admin' )
   } catch (err) {
     res.redirect('login');
   }
